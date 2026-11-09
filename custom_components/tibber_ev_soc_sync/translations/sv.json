@@ -1,0 +1,121 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Logga in hos Tibber",
+        "description": "Använd samma e-post och lösenord som i Tibber-appen. Integrationen använder Tibbers inofficiella app-API för att sätta batterinivån för en bil som Tibber saknar direktintegration med.",
+        "data": {
+          "email": "E-post",
+          "password": "Lösenord"
+        }
+      },
+      "vehicle": {
+        "title": "Välj bil",
+        "description": "Bilar utan Tibber-integration heter ofta \"<märke> offline\" i Tibber.",
+        "data": {
+          "vehicle_id": "Bil",
+          "home_id": "Hem"
+        }
+      },
+      "entities": {
+        "title": "Batterinivå och laddkabel",
+        "description": "Välj varifrån Home Assistant hämtar bilens batterinivå, och gärna en sensor som visar när laddkabeln sitter i.",
+        "data": {
+          "soc_entity": "Sensor för batterinivå (%)",
+          "plug_entity": "Sensor för inkopplad (valfri)",
+          "unplugged_states": "Lägen som betyder \"inte inkopplad\"",
+          "only_when_plugged": "Synka bara när bilen är inkopplad",
+          "min_delta": "Synka igen när nivån ändrats med",
+          "refresh_delay": "Vid inkoppling: uppdatera batterisensorn och vänta"
+        },
+        "data_description": {
+          "soc_entity": "Till exempel batterisensorn från bilens integration (Kia, Hyundai, VW, Tesla …).",
+          "plug_entity": "Laddboxens status eller en binär sensor. Inkoppling startar en synk – det är då Tibber planerar laddningen.",
+          "unplugged_states": "Används när sensorn inte är binär, t.ex. disconnected för Easee.",
+          "only_when_plugged": "Ändringar i batterinivån skickas bara medan kabeln sitter i.",
+          "min_delta": "Procentenheter. Undviker att varje liten ändring skickas.",
+          "refresh_delay": "Sekunder. 0 = skicka direkt. Ger bilens integration tid att hämta ett färskt värde."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Logga in hos Tibber igen",
+        "description": "Tibber godtog inte inloggningen för {vehicle}. Ange e-post och lösenord igen.",
+        "data": {
+          "email": "E-post",
+          "password": "Lösenord"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Fel e-post eller lösenord.",
+      "cannot_connect": "Kunde inte nå Tibber. Försök igen senare.",
+      "no_vehicles": "Inga bilar hittades på Tibber-kontot. Lägg till bilen i Tibber-appen först.",
+      "no_homes": "Inga hem hittades på Tibber-kontot."
+    },
+    "abort": {
+      "already_configured": "Den här bilen är redan inlagd.",
+      "reauth_successful": "Inloggad igen."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Batterinivå och laddkabel",
+        "data": {
+          "soc_entity": "Sensor för batterinivå (%)",
+          "plug_entity": "Sensor för inkopplad (valfri)",
+          "unplugged_states": "Lägen som betyder \"inte inkopplad\"",
+          "only_when_plugged": "Synka bara när bilen är inkopplad",
+          "min_delta": "Synka igen när nivån ändrats med",
+          "refresh_delay": "Vid inkoppling: uppdatera batterisensorn och vänta"
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "sync_now": {
+        "name": "Synka nu"
+      }
+    },
+    "sensor": {
+      "last_sent_level": {
+        "name": "Batterinivå i Tibber"
+      },
+      "last_success": {
+        "name": "Senaste lyckade synk"
+      },
+      "status": {
+        "name": "Synkstatus",
+        "state": {
+          "never": "Inte synkad än",
+          "syncing": "Synkar",
+          "ok": "OK",
+          "error": "Fel",
+          "auth_error": "Inloggning misslyckades"
+        }
+      }
+    }
+  },
+  "services": {
+    "sync": {
+      "name": "Synka batterinivå",
+      "description": "Skickar bilens batterinivå till Tibber nu.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Bil",
+          "description": "Bilen som ska synkas."
+        },
+        "level": {
+          "name": "Batterinivå",
+          "description": "Valfritt. Skicka den här nivån i stället för sensorns värde."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "entry_not_loaded": {
+      "message": "Bilen är inte inlagd eller inte laddad."
+    }
+  }
+}

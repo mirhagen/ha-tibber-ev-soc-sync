@@ -1,0 +1,121 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Log in to Tibber",
+        "description": "Use the same e-mail and password as in the Tibber app. This integration uses Tibber's unofficial app API to set the battery level of a vehicle that Tibber has no direct integration with.",
+        "data": {
+          "email": "E-mail",
+          "password": "Password"
+        }
+      },
+      "vehicle": {
+        "title": "Choose vehicle",
+        "description": "Vehicles without a Tibber integration are often called \"<brand> offline\" in Tibber.",
+        "data": {
+          "vehicle_id": "Vehicle",
+          "home_id": "Home"
+        }
+      },
+      "entities": {
+        "title": "Battery level and charging cable",
+        "description": "Choose where Home Assistant gets the vehicle's battery level, and optionally a sensor showing when the charging cable is plugged in.",
+        "data": {
+          "soc_entity": "Battery level sensor (%)",
+          "plug_entity": "Plugged-in sensor (optional)",
+          "unplugged_states": "States meaning \"not plugged in\"",
+          "only_when_plugged": "Only sync while plugged in",
+          "min_delta": "Sync again when the level has changed by",
+          "refresh_delay": "When plugged in, refresh the battery sensor and wait"
+        },
+        "data_description": {
+          "soc_entity": "For example the battery sensor from your car's integration (Kia, Hyundai, VW, Tesla …).",
+          "plug_entity": "A charger status or a binary sensor. Plugging in triggers a sync, which is when Tibber plans charging.",
+          "unplugged_states": "Used when the plugged-in sensor is not a binary sensor, e.g. disconnected for Easee.",
+          "only_when_plugged": "Changes of the battery level are only sent while the cable is plugged in.",
+          "min_delta": "Percentage points. Avoids sending every small change.",
+          "refresh_delay": "Seconds. 0 = send right away. Gives the car's integration time to fetch a fresh value."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Log in to Tibber again",
+        "description": "Tibber did not accept the login for {vehicle}. Enter your e-mail and password again.",
+        "data": {
+          "email": "E-mail",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Wrong e-mail or password.",
+      "cannot_connect": "Could not reach Tibber. Try again later.",
+      "no_vehicles": "No vehicles found on the Tibber account. Add the vehicle in the Tibber app first.",
+      "no_homes": "No homes found on the Tibber account."
+    },
+    "abort": {
+      "already_configured": "This vehicle is already set up.",
+      "reauth_successful": "Logged in again."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Battery level and charging cable",
+        "data": {
+          "soc_entity": "Battery level sensor (%)",
+          "plug_entity": "Plugged-in sensor (optional)",
+          "unplugged_states": "States meaning \"not plugged in\"",
+          "only_when_plugged": "Only sync while plugged in",
+          "min_delta": "Sync again when the level has changed by",
+          "refresh_delay": "When plugged in, refresh the battery sensor and wait"
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "sync_now": {
+        "name": "Sync now"
+      }
+    },
+    "sensor": {
+      "last_sent_level": {
+        "name": "Battery level in Tibber"
+      },
+      "last_success": {
+        "name": "Last successful sync"
+      },
+      "status": {
+        "name": "Sync status",
+        "state": {
+          "never": "Not synced yet",
+          "syncing": "Syncing",
+          "ok": "OK",
+          "error": "Error",
+          "auth_error": "Login failed"
+        }
+      }
+    }
+  },
+  "services": {
+    "sync": {
+      "name": "Sync battery level",
+      "description": "Sends the vehicle's battery level to Tibber now.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Vehicle",
+          "description": "The vehicle to sync."
+        },
+        "level": {
+          "name": "Battery level",
+          "description": "Optional. Send this level instead of the sensor's value."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "entry_not_loaded": {
+      "message": "The vehicle is not set up or not loaded."
+    }
+  }
+}

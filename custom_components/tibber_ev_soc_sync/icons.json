@@ -1,0 +1,19 @@
+{
+  "entity": {
+    "button": { "sync_now": { "default": "mdi:battery-sync" } },
+    "sensor": {
+      "last_sent_level": { "default": "mdi:car-electric" },
+      "last_success": { "default": "mdi:clock-check-outline" },
+      "status": {
+        "default": "mdi:check-circle-outline",
+        "state": {
+          "never": "mdi:help-circle-outline",
+          "syncing": "mdi:sync",
+          "error": "mdi:alert-circle-outline",
+          "auth_error": "mdi:account-alert-outline"
+        }
+      }
+    }
+  },
+  "services": { "sync": { "service": "mdi:battery-sync" } }
+}

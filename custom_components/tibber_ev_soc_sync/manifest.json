@@ -1,0 +1,12 @@
+{
+  "domain": "tibber_ev_soc_sync",
+  "name": "Tibber EV SoC Sync",
+  "codeowners": ["@mirhagen"],
+  "config_flow": true,
+  "documentation": "https://github.com/mirhagen/ha-tibber-ev-soc-sync",
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/mirhagen/ha-tibber-ev-soc-sync/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
