@@ -11,7 +11,7 @@
       },
       "vehicle": {
         "title": "Choose vehicle",
-        "description": "Vehicles without a Tibber integration are often called \"<brand> offline\" in Tibber.",
+        "description": "Vehicles without a Tibber integration are usually called \"Brand offline\" in Tibber, e.g. \"Kia offline\".",
         "data": {
           "vehicle_id": "Vehicle",
           "home_id": "Home"

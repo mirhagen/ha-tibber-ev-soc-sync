@@ -11,7 +11,7 @@
       },
       "vehicle": {
         "title": "Välj bil",
-        "description": "Bilar utan Tibber-integration heter ofta \"<märke> offline\" i Tibber.",
+        "description": "Bilar utan Tibber-integration heter oftast \"Märke offline\" i Tibber, t.ex. \"Kia offline\".",
         "data": {
           "vehicle_id": "Bil",
           "home_id": "Hem"
