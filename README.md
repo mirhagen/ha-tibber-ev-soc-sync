@@ -1,6 +1,6 @@
 # Tibber EV SoC Sync
 
-[![Validate](https://github.com/mirhagen/ha-tibber-ev-soc-sync/actions/workflows/validate.yml/badge.svg)](https://github.com/mirhagen/ha-tibber-ev-soc-sync/actions/workflows/validate.yml)
+[![Validate](https://github.com/mirhagen/ha-tibber-ev-soc-sync/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/mirhagen/ha-tibber-ev-soc-sync/actions/workflows/validate.yml)
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/docs/faq/custom_repositories)
 
 Keep **Tibber's battery level for your electric car** up to date from Home Assistant – for cars that Tibber has no direct integration with (shown as *"&lt;brand&gt; offline"* in the Tibber app).
