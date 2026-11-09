@@ -26,6 +26,44 @@ Tibber Smart Charging plans charging from the battery level. For an offline car,
 - A sensor in Home Assistant with the car's battery level in percent.
 - Recommended: a sensor that shows when the charging cable is plugged in, e.g. the status sensor of your charger (Easee, Zaptec, Wallbox …) or a binary sensor from the car.
 
+## Which battery sensor should I use?
+
+Any sensor that shows the car's **traction battery level in %** works. Below is a starting list of common car integrations. Entity names depend on what you named the car and on the integration version – look for the entity with the name in the table, or search in **Developer tools → States** for `battery` / `soc` / `charge` with unit `%`.
+
+✅ = verified with this integration · 🔎 = not verified yet, what to look for. Please [open an issue](https://github.com/mirhagen/ha-tibber-ev-soc-sync/issues) or a pull request with corrections and additions.
+
+### Cars
+
+| Brand | Home Assistant integration | Battery level (%) | Plugged in (optional) | |
+|---|---|---|---|---|
+| **Kia, Hyundai, Genesis** | [Kia Uvo / Hyundai Bluelink](https://github.com/Hyundai-Kia-Connect/kia_uvo) (HACS) | **EV Battery Level** – `sensor.<car>_ev_battery_level` | **EV Battery Plug** – `binary_sensor.<car>_ev_battery_plug` | ✅ |
+| Tesla | [Tesla Fleet](https://www.home-assistant.io/integrations/tesla_fleet/), [Teslemetry](https://www.home-assistant.io/integrations/teslemetry/), [Tessie](https://www.home-assistant.io/integrations/tessie/) | *Battery level* | *Charge cable* | 🔎 |
+| Volvo | [Volvo](https://www.home-assistant.io/integrations/volvo/) | *Battery charge level* | *Charging connection status* | 🔎 |
+| Polestar | [Polestar API](https://github.com/pypolestar/polestar_api) (HACS) | *Battery charge level* | *Charging connection status* | 🔎 |
+| Volkswagen ID | [Volkswagen We Connect ID](https://github.com/mitch-dc/volkswagen_we_connect_id) (HACS) | *State of charge* / *Battery level* | *Plug connection state* | 🔎 |
+| Škoda | [MySkoda](https://github.com/skodaconnect/homeassistant-myskoda) (HACS) | *Battery percentage* | *Charger connected* | 🔎 |
+| Renault, Dacia | [Renault](https://www.home-assistant.io/integrations/renault/) | *Battery* | *Plug state* (`unplugged` = not plugged in) | 🔎 |
+| Mercedes-Benz | [Mercedes-Benz](https://github.com/ReneNulschDE/mbapi2020) (HACS) | *State of charge* | *Charging active* / plug status | 🔎 |
+| BMW, Mini | [BMW Connected Drive](https://www.home-assistant.io/integrations/bmw_connected_drive/) | *Remaining battery percent* | *Charging plug connected* | 🔎 |
+| Nissan | [Nissan Leaf](https://www.home-assistant.io/integrations/nissan_leaf/) | *Charge* | *Plug status* | 🔎 |
+| Any car | [evcc](https://github.com/marq24/ha-evcc) (HACS) or an OBD-II dongle (e.g. WiCAN) | the vehicle's *SoC* | – | 🔎 |
+
+> [!IMPORTANT]
+> Choose the **traction (high-voltage) battery**, not the 12 V battery. Kia/Hyundai has both: *EV Battery Level* is correct, *Car Battery Level* is the 12 V battery.
+
+### Chargers (for "plugged in")
+
+The charger's status is often the most reliable "plugged in" signal, because it changes the moment the cable is connected.
+
+| Charger | Integration | Sensor | "Not plugged in" state | |
+|---|---|---|---|---|
+| **Easee** | [Easee EV Charger](https://github.com/nordicopen/easee_hass) (HACS) | `sensor.<charger>_status` | `disconnected` | ✅ |
+| Zaptec | [Zaptec](https://github.com/custom-components/zaptec) (HACS) | Charger operation mode | `disconnected` | 🔎 |
+| Wallbox | [Wallbox](https://www.home-assistant.io/integrations/wallbox/) | Status description | `Disconnected`, `Ready` | 🔎 |
+| go-e | via [MQTT](https://www.home-assistant.io/integrations/mqtt/) or a go-e integration from HACS | Car state | `Idle` | 🔎 |
+
+If the car's integration has a binary "plugged in" sensor, you can use that instead – then the "not plugged in" states are not needed.
+
 ## Installation
 
 ### HACS (recommended)
@@ -99,7 +137,7 @@ Håller **Tibbers batterinivå för elbilen** uppdaterad från Home Assistant, f
 
 **Installation:** HACS → ⋮ → *Anpassade arkiv* → `https://github.com/mirhagen/ha-tibber-ev-soc-sync` (typ *Integration*) → ladda ned → starta om.
 
-**Inställning:** Inställningar → Enheter och tjänster → Lägg till integration → *Tibber EV SoC Sync* → logga in med Tibber-kontot → välj bilen → välj batterisensorn och gärna laddboxens status. Vid inkoppling skickas bilens batterinivå till Tibber; medan den sitter i skickas den igen när nivån ändrats med minst 5 procentenheter. Det finns en knapp *Synka nu* och tjänsten `tibber_ev_soc_sync.sync`.
+**Inställning:** Inställningar → Enheter och tjänster → Lägg till integration → *Tibber EV SoC Sync* → logga in med Tibber-kontot → välj bilen → välj batterisensorn och gärna laddboxens status. Se [listan över batterisensorer](#which-battery-sensor-should-i-use) – för Kia/Hyundai är det **EV Battery Level** (inte *Car Battery Level*, som är 12 V-batteriet), och för Easee laddboxens *Status* med `disconnected`. Vid inkoppling skickas bilens batterinivå till Tibber; medan den sitter i skickas den igen när nivån ändrats med minst 5 procentenheter. Det finns en knapp *Synka nu* och tjänsten `tibber_ev_soc_sync.sync`.
 
 ## License
 
